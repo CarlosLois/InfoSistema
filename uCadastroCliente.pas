@@ -82,6 +82,8 @@ type
     Label4: TLabel;
     Panel10: TPanel;
     btnPesquisar: TSpeedButton;
+    Panel11: TPanel;
+    btnEmail: TSpeedButton;
     procedure imgFecharClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure btnNovoClick(Sender: TObject);
@@ -95,11 +97,14 @@ type
     procedure btnPesquisarClick(Sender: TObject);
     procedure DBGrid1DblClick(Sender: TObject);
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure edtCEPExit(Sender: TObject);
+    procedure btnEmailClick(Sender: TObject);
   private
     { Private declarations }
     stlFIELDFIND : TStringList;
 
     procedure SetButtonsManutencao(Ativar : Boolean = True);
+    procedure ConsultaCep;
 
   public
     { Public declarations }
@@ -110,7 +115,7 @@ var
 
 implementation
 
-uses uAcesso, uAtivaComponente, uMensagem, uValidaCampoObrigatorio, uFiltrarRegistro;
+uses uAcesso, uAtivaComponente, uMensagem, uValidaCampoObrigatorio, uFiltrarRegistro, uCEP, uCadastroClienteClass;
 
 {$R *.dfm}
 
@@ -127,12 +132,47 @@ begin
   tbsPesquisa.TabVisible := True;
 end;
 
+procedure TfrmCadastroCliente.ConsultaCep;
+var
+  CEP : TCEP;
+begin
+  if not (cdsCliente.State in [dsInsert, dsEdit]) then
+    Exit;
+
+  CEP := TCEP.Create(edtCEP.Text);
+  try
+    if (not CEP.ConsultaCep) and (CEP.Mensagem <> '') then
+    begin
+      Informa(CEP.Mensagem);
+      Exit;
+    end;
+
+    if (Trim(edtLogradouro.Text) <> '') and (edtLogradouro.Text <> CEP.Logradouro) then
+      if not Confirma('Deseja substituir o endereço conforme o CEP informado?') then
+        Exit;
+
+    cdsClienteEND_LOGRADOURO.AsString := CEP.Logradouro;
+    cdsClienteEND_COMPLEMETO.AsString := CEP.Complemento;
+    cdsClienteEND_BAIRRO.AsString     := CEP.Bairro;
+    cdsClienteEND_CIDADE.AsString     := CEP.Cidade;
+    cdsClienteEND_ESTADO.AsString     := CEP.Estado;
+
+  finally
+    FreeAndNil(CEP);
+  end;
+end;
+
 procedure TfrmCadastroCliente.DBGrid1DblClick(Sender: TObject);
 begin
   tbsCadastro.TabVisible := True;
   tbsPesquisa.TabVisible := False;
 
   edtConeudoPesquisa.Text := '';
+end;
+
+procedure TfrmCadastroCliente.edtCEPExit(Sender: TObject);
+begin
+  ConsultaCep;
 end;
 
 procedure TfrmCadastroCliente.edtConeudoPesquisaChange(Sender: TObject);
@@ -155,6 +195,19 @@ begin
 
   cdsCliente.Cancel;
   SetButtonsManutencao(False);
+end;
+
+procedure TfrmCadastroCliente.btnEmailClick(Sender: TObject);
+var
+  CadastroCliente : TCadastroCliente;
+begin
+  CadastroCliente := TCadastroCliente.Create;
+  try
+    CadastroCliente.SaveToXml('');
+
+  finally
+    FreeAndNil(CadastroCliente);
+  end;
 end;
 
 procedure TfrmCadastroCliente.btnExluirClick(Sender: TObject);

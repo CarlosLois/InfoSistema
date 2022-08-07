@@ -1,0 +1,108 @@
+unit uCEP;
+
+interface
+
+uses REST.Json.Types, IdHTTP, IdSSLOpenSSL, System.Classes, REST.Json, System.SysUtils;
+
+type
+  TCEP = class
+  private
+
+    FIdHTTP                     : TIdHTTP;
+    FIdSSLIOHandlerSocketOpenSSL: TIdSSLIOHandlerSocketOpenSSL;
+
+
+    FCEP        : string;
+    FLogradouro : string;
+    FNumero     : string;
+    FBairro     : string;
+    FCidade     : string;
+    FComplemento: string;
+    FEstado     : string;
+
+    procedure SetCEP(const Value: string);
+  public
+    property CEP        : string read FCEP         write SetCEP;
+    property Logradouro : string read FLogradouro;
+    property Numero     : string read FNumero;
+    property Complemento: string read FComplemento;
+    property Bairro     : string read FBairro;
+    property Cidade     : string read FCidade;
+    property Estado     : string read FEstado;
+
+    function ConsultaCep : Boolean;
+
+    function ToJSONString: string;
+    class function FromJSONString(const AJSONString: string): TCEP;
+
+    constructor Create(const ACep : String);
+    destructor Destroy; override;
+
+  end;
+
+implementation
+
+uses uSomenteNumeros;
+
+{ TCEP }
+
+function TCEP.ConsultaCep: Boolean;
+const
+  URL         = 'https://viacep.com.br/ws/%s/json';
+  INVALID_CEP = '{'#$A'  "erro": true'#$A'}';
+var
+  LResponse: TStringStream;
+begin
+  Result    := False;
+
+
+  if Length(SomenteNumeros(FCEP)) <> 8 then
+    Exit;
+
+  LResponse := TStringStream.Create;
+  try
+    FIdHTTP.Get(Format(URL, [FCEP]), LResponse);
+
+    if (FIdHTTP.ResponseCode = 200) and (not (LResponse.DataString).Equals(INVALID_CEP)) then
+    begin
+
+      Result := True;
+    end;
+  finally
+    LResponse.Free;
+  end;
+end;
+
+constructor TCEP.Create(const ACep : String);
+begin
+  FCEP := ACep;
+
+  FIdHTTP                                             := TIdHTTP.Create;
+  FIdSSLIOHandlerSocketOpenSSL                        := TIdSSLIOHandlerSocketOpenSSL.Create;
+  FIdHTTP.IOHandler                                   := FIdSSLIOHandlerSocketOpenSSL;
+  FIdSSLIOHandlerSocketOpenSSL.SSLOptions.SSLVersions := [sslvTLSv1, sslvTLSv1_1, sslvTLSv1_2];
+end;
+
+destructor TCEP.Destroy;
+begin
+
+  inherited;
+end;
+
+class function TCEP.FromJSONString(const AJSONString: string): TCEP;
+begin
+  Result := TJson.JsonToObject<TCEP>(AJSONString);
+end;
+
+procedure TCEP.SetCEP(const Value: string);
+begin
+  FCEP := Value;
+end;
+
+function TCEP.ToJSONString: string;
+begin
+  Result := TJson.ObjectToJsonString(Self, [joIgnoreEmptyStrings]);
+end;
+
+
+end.

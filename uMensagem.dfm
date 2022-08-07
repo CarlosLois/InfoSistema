@@ -31,6 +31,7 @@ object frmMensagem: TfrmMensagem
     Font.Style = []
     ParentFont = False
     Layout = tlCenter
+    WordWrap = True
   end
   object pnlOk: TPanel
     Left = 172
@@ -101,8 +102,6 @@ object frmMensagem: TfrmMensagem
     Color = 48123
     ParentBackground = False
     TabOrder = 2
-    ExplicitTop = -273
-    ExplicitHeight = 453
   end
   object Panel2: TPanel
     Left = 0
@@ -115,9 +114,6 @@ object frmMensagem: TfrmMensagem
     Color = 48123
     ParentBackground = False
     TabOrder = 3
-    ExplicitLeft = 378
-    ExplicitTop = -273
-    ExplicitHeight = 453
   end
   object Panel3: TPanel
     Left = 0
@@ -130,9 +126,6 @@ object frmMensagem: TfrmMensagem
     Color = 48123
     ParentBackground = False
     TabOrder = 4
-    ExplicitLeft = 2
-    ExplicitTop = 0
-    ExplicitWidth = 180
   end
   object Panel4: TPanel
     Left = 0
@@ -145,7 +138,5 @@ object frmMensagem: TfrmMensagem
     Color = 48123
     ParentBackground = False
     TabOrder = 5
-    ExplicitLeft = 2
-    ExplicitWidth = 178
   end
 end

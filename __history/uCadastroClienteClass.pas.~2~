@@ -1,0 +1,27 @@
+unit uCadastroClienteClass;
+
+interface
+
+type
+  TCadastroCliente = class
+  private
+    FNome      : String;
+    FRG        : String;
+    FCPF       : String;
+    FTelefone  : String;
+    FEmail     : String;
+
+    FEndereco  : TEndereco;
+  public
+    property Nome     read FNome     write FNome;
+    property RG       read FRG       write FRG;
+    property CPF      read FCPF      write FCPF;
+    property Telefone read FTelefone write FTelefone;
+    property Email    read FEmail    write FEmail;
+
+    property Endereco read FEmail    write FEmail;
+  end;
+
+implementation
+
+end.

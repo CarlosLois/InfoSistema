@@ -79,7 +79,7 @@ object frmCadastroCliente: TfrmCadastroCliente
     Top = 32
     Width = 764
     Height = 448
-    ActivePage = tbsPesquisa
+    ActivePage = tbsCadastro
     Style = tsFlatButtons
     TabOrder = 1
     object tbsCadastro: TTabSheet
@@ -93,8 +93,6 @@ object frmCadastroCliente: TfrmCadastroCliente
         BevelInner = bvRaised
         BevelOuter = bvLowered
         TabOrder = 0
-        ExplicitLeft = 4
-        ExplicitTop = -4
         object lblCliente: TLabel
           Left = 7
           Top = 24
@@ -394,6 +392,7 @@ object frmCadastroCliente: TfrmCadastroCliente
           Font.Style = []
           ParentFont = False
           TabOrder = 5
+          OnExit = edtCEPExit
         end
         object edtLogradouro: TDBEdit
           Left = 110
@@ -718,6 +717,34 @@ object frmCadastroCliente: TfrmCadastroCliente
             ExplicitTop = 2
           end
         end
+        object Panel11: TPanel
+          Left = 423
+          Top = 384
+          Width = 100
+          Height = 25
+          BevelOuter = bvNone
+          Color = 48123
+          ParentBackground = False
+          TabOrder = 20
+          object btnEmail: TSpeedButton
+            Left = 0
+            Top = 0
+            Width = 100
+            Height = 25
+            Align = alClient
+            Caption = 'E-Mail [F9]'
+            Flat = True
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWhite
+            Font.Height = -12
+            Font.Name = 'Optima'
+            Font.Style = [fsBold]
+            ParentFont = False
+            OnClick = btnEmailClick
+            ExplicitLeft = 2
+            ExplicitTop = 2
+          end
+        end
       end
     end
     object tbsPesquisa: TTabSheet
@@ -732,8 +759,6 @@ object frmCadastroCliente: TfrmCadastroCliente
         BevelInner = bvRaised
         BevelOuter = bvLowered
         TabOrder = 0
-        ExplicitLeft = 4
-        ExplicitTop = -4
         object Label3: TLabel
           Left = 8
           Top = 3
@@ -975,9 +1000,6 @@ object frmCadastroCliente: TfrmCadastroCliente
     Color = 48123
     ParentBackground = False
     TabOrder = 2
-    ExplicitLeft = 595
-    ExplicitTop = 21
-    ExplicitHeight = 459
   end
   object Panel2: TPanel
     Left = 0
@@ -990,9 +1012,6 @@ object frmCadastroCliente: TfrmCadastroCliente
     Color = 48123
     ParentBackground = False
     TabOrder = 3
-    ExplicitLeft = 8
-    ExplicitTop = 8
-    ExplicitHeight = 416
   end
   object Panel3: TPanel
     Left = 0
@@ -1005,8 +1024,6 @@ object frmCadastroCliente: TfrmCadastroCliente
     Color = 48123
     ParentBackground = False
     TabOrder = 4
-    ExplicitTop = 0
-    ExplicitWidth = 459
   end
   object dsCliente: TDataSource
     DataSet = cdsCliente

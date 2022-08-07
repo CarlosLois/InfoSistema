@@ -1,0 +1,103 @@
+unit uCadastroClienteClass;
+
+interface
+
+uses uEnderecoClass;
+
+type
+  TCadastroCliente = class
+  private
+    FNome      : String;
+    FRG        : String;
+    FCPF       : String;
+    FTelefone  : String;
+    FEmail     : String;
+
+    FEndereco  : TEndereco;
+    function GetCPF: String;
+    function GetEmail: String;
+    function GetEndereco: TEndereco;
+    function GetNome: String;
+    function GetRG: String;
+    function GetTelefone: String;
+    procedure SetCPF(const Value: String);
+    procedure SetEmail(const Value: String);
+    procedure SetEndereco(const Value: TEndereco);
+    procedure SetNome(const Value: String);
+    procedure SetRG(const Value: String);
+    procedure SetTelefone(const Value: String);
+  public
+    property Nome     : String read GetNome     write SetNome;
+    property RG       : String read GetRG       write SetRG;
+    property CPF      : String read GetCPF      write SetCPF;
+    property Telefone : String read GetTelefone write SetTelefone;
+    property Email    : String read GetEmail    write SetEmail;
+
+    property Endereco : TEndereco read GetEndereco write SetEndereco;
+  end;
+
+implementation
+
+{ TCadastroCliente }
+
+function TCadastroCliente.GetCPF: String;
+begin
+  Result := FCPF;
+end;
+
+function TCadastroCliente.GetEmail: String;
+begin
+  Result := FEmail;
+end;
+
+function TCadastroCliente.GetEndereco: TEndereco;
+begin
+  Result := FEndereco;
+end;
+
+function TCadastroCliente.GetNome: String;
+begin
+  Result := FNome;
+end;
+
+function TCadastroCliente.GetRG: String;
+begin
+  Result := FRG;
+end;
+
+function TCadastroCliente.GetTelefone: String;
+begin
+  Result := FTelefone;
+end;
+
+procedure TCadastroCliente.SetCPF(const Value: String);
+begin
+  FCPF := Value;
+end;
+
+procedure TCadastroCliente.SetEmail(const Value: String);
+begin
+  FEmail := Value;
+end;
+
+procedure TCadastroCliente.SetEndereco(const Value: TEndereco);
+begin
+  FEndereco := Value;
+end;
+
+procedure TCadastroCliente.SetNome(const Value: String);
+begin
+  FNome := Value;
+end;
+
+procedure TCadastroCliente.SetRG(const Value: String);
+begin
+  FRG := Value;
+end;
+
+procedure TCadastroCliente.SetTelefone(const Value: String);
+begin
+  FTelefone := Value;
+end;
+
+end.

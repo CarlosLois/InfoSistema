@@ -8,12 +8,12 @@ object frmAcesso: TfrmAcesso
   Color = 16119285
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
-  Font.Height = -12
+  Font.Height = -13
   Font.Name = 'Segoe UI'
   Font.Style = []
   Position = poDesktopCenter
   PixelsPerInch = 96
-  TextHeight = 15
+  TextHeight = 17
   object imgLogo: TImage
     Left = 32
     Top = 102
@@ -113,6 +113,23 @@ object frmAcesso: TfrmAcesso
     Font.Charset = DEFAULT_CHARSET
     Font.Color = 48123
     Font.Height = -16
+    Font.Name = 'Optima'
+    Font.Style = [fsBold]
+    ParentColor = False
+    ParentFont = False
+    Transparent = True
+  end
+  object Label1: TLabel
+    Left = 8
+    Top = 260
+    Width = 464
+    Height = 19
+    AutoSize = False
+    Caption = 'Desenvolvido por Carlos Henrique Lois'
+    Color = 13150800
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = 48123
+    Font.Height = -13
     Font.Name = 'Optima'
     Font.Style = [fsBold]
     ParentColor = False

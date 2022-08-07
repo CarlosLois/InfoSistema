@@ -15,6 +15,7 @@ type
     btnSair: TSpeedButton;
     imgLogo: TImage;
     lblSaudacao: TLabel;
+    Label1: TLabel;
     procedure btnAcessoClick(Sender: TObject);
     procedure btnSairClick(Sender: TObject);
   private

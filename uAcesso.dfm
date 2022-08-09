@@ -16,10 +16,9 @@ object frmAcesso: TfrmAcesso
   TextHeight = 17
   object imgLogo: TImage
     Left = 32
-    Top = 102
+    Top = 82
     Width = 280
-    Height = 76
-    AutoSize = True
+    Height = 117
     Center = True
     Picture.Data = {
       0954506E67496D61676589504E470D0A1A0A0000000D49484452000001180000
@@ -138,7 +137,7 @@ object frmAcesso: TfrmAcesso
   end
   object Panel1: TPanel
     Left = 328
-    Top = 102
+    Top = 82
     Width = 120
     Height = 35
     BevelOuter = bvNone
@@ -167,7 +166,7 @@ object frmAcesso: TfrmAcesso
   end
   object Panel2: TPanel
     Left = 328
-    Top = 143
+    Top = 123
     Width = 120
     Height = 35
     BevelOuter = bvNone
@@ -195,6 +194,34 @@ object frmAcesso: TfrmAcesso
       ExplicitTop = 11
       ExplicitWidth = 81
       ExplicitHeight = 22
+    end
+  end
+  object Panel3: TPanel
+    Left = 328
+    Top = 164
+    Width = 120
+    Height = 35
+    BevelOuter = bvNone
+    Color = 48123
+    ParentBackground = False
+    TabOrder = 2
+    object btnConfigEmail: TSpeedButton
+      Left = 0
+      Top = 0
+      Width = 120
+      Height = 35
+      Align = alClient
+      Caption = 'Config E-mail'
+      Flat = True
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindow
+      Font.Height = -15
+      Font.Name = 'Optima'
+      Font.Style = [fsBold]
+      ParentFont = False
+      Transparent = False
+      OnClick = btnConfigEmailClick
+      ExplicitLeft = 8
     end
   end
 end

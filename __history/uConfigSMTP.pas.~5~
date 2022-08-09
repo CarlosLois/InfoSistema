@@ -1,0 +1,85 @@
+unit uConfigSMTP;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.Mask, Vcl.ExtCtrls,
+  Vcl.DBCtrls, Vcl.Buttons, Vcl.Samples.Spin;
+
+type
+  TfrmConfigSMTP = class(TForm)
+    lblEmail: TLabel;
+    edtEmail: TEdit;
+    lblSMTP: TLabel;
+    edtSMTP: TEdit;
+    lblSenha: TLabel;
+    edtSenha: TEdit;
+    lblPorta: TLabel;
+    edtPorta: TSpinEdit;
+    Panel7: TPanel;
+    btnGravar: TSpeedButton;
+    procedure btnGravarClick(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmConfigSMTP: TfrmConfigSMTP;
+
+implementation
+
+{$R *.dfm}
+
+uses uParametros, uMensagem;
+
+function Execute : Boolean;
+begin
+  frmConfigSMTP := TfrmConfigSMTP.Create(Application);
+  try
+    Result := frmConfigSMTP.ShowModal = mrOk;
+  finally
+    FreeAndNil(frmConfigSMTP);
+  end;
+end;
+
+procedure TfrmConfigSMTP.btnGravarClick(Sender: TObject);
+const
+  Msg := 'O campo #1 é de preenhimento obrigatório!'
+begin
+  if Trim(edtEmail.Text) = '' then
+  begin
+    uMensagem.Informacao(StringReplace(Msg, '#1', lblEmail.Caption, []));
+    Exit;
+  end;
+
+  if Trim(edtSMTP.Text) = '' then
+  begin
+    uMensagem.Informacao(StringReplace(Msg, '#1', lblSMTP.Caption, []));
+    Exit;
+  end;
+
+  if Trim(edtSenha.Text) = '' then
+  begin
+    uMensagem.Informacao(StringReplace(Msg, '#1', lblSenha.Caption, []));
+    Exit;
+  end;
+
+  pubConfigConnection.WriteString('SMTP_EMAIL', 'CONTA', edtEmail.Text);
+  pubConfigConnection.WriteString('SMTP_EMAIL', 'SMTP' , edtSMTP.Text);
+  pubConfigConnection.WriteString('SMTP_EMAIL', 'SENHA', edtSenha.Text);
+  pubConfigConnection.WriteString('SMTP_EMAIL', 'PORTA', edtPorta.Text);
+end;
+
+procedure TfrmConfigSMTP.FormShow(Sender: TObject);
+begin
+  edtEmail.Text := pubConfigEmailSMTP.ReadString('SMTP_EMAIL', 'CONTA', '');
+  edtSMTP.Text  := pubConfigEmailSMTP.ReadString('SMTP_EMAIL', 'SMTP' , '');
+  edtSenha.Text := pubConfigEmailSMTP.ReadString('SMTP_EMAIL', 'SENHA', '');
+  edtPorta.Text := pubConfigEmailSMTP.ReadString('SMTP_EMAIL', 'PORTA', '');
+end;
+
+end.

@@ -6,7 +6,9 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, Vcl.Imaging.pngimage,
   Data.DB, Datasnap.DBClient, Vcl.StdCtrls, Vcl.Mask, Vcl.DBCtrls, Vcl.ComCtrls,
-  Vcl.Buttons, Vcl.Grids, Vcl.DBGrids;
+  Vcl.Buttons, Vcl.Grids, Vcl.DBGrids, IdBaseComponent, IdComponent,
+  IdTCPConnection, IdTCPClient, IdExplicitTLSClientServerBase, IdMessageClient,
+  IdSMTPBase, IdSMTP;
 
 type
   TfrmCadastroCliente = class(TForm)
@@ -57,7 +59,7 @@ type
     cdsClienteEND_CEP: TStringField;
     cdsClienteEND_LOGRADOURO: TStringField;
     cdsClienteEND_NUMERO: TStringField;
-    cdsClienteEND_COMPLEMETO: TStringField;
+    cdsClienteEND_COMPLEMENTO: TStringField;
     cdsClienteEND_BAIRRO: TStringField;
     cdsClienteEND_CIDADE: TStringField;
     cdsClienteEND_ESTADO: TStringField;
@@ -84,6 +86,7 @@ type
     btnPesquisar: TSpeedButton;
     Panel11: TPanel;
     btnEmail: TSpeedButton;
+    IdSMTP1: TIdSMTP;
     procedure imgFecharClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure btnNovoClick(Sender: TObject);
@@ -115,7 +118,7 @@ var
 
 implementation
 
-uses uAcesso, uAtivaComponente, uMensagem, uValidaCampoObrigatorio, uFiltrarRegistro, uCEP, uCadastroClienteClass;
+uses uAcesso, uAtivaComponente, uMensagem, uValidaCampoObrigatorio, uFiltrarRegistro, uCEP, uCadastroClienteClass, uEnderecoClass, uConfigSMTP, uEmail, uParametros;
 
 {$R *.dfm}
 
@@ -151,11 +154,14 @@ begin
       if not Confirma('Deseja substituir o endereço conforme o CEP informado?') then
         Exit;
 
-    cdsClienteEND_LOGRADOURO.AsString := CEP.Logradouro;
-    cdsClienteEND_COMPLEMETO.AsString := CEP.Complemento;
-    cdsClienteEND_BAIRRO.AsString     := CEP.Bairro;
-    cdsClienteEND_CIDADE.AsString     := CEP.Cidade;
-    cdsClienteEND_ESTADO.AsString     := CEP.Estado;
+    cdsClienteEND_LOGRADOURO.AsString  := CEP.Logradouro;
+    cdsClienteEND_COMPLEMENTO.AsString := CEP.Complemento;
+    cdsClienteEND_BAIRRO.AsString      := CEP.Bairro;
+    cdsClienteEND_CIDADE.AsString      := CEP.Cidade;
+    cdsClienteEND_ESTADO.AsString      := CEP.Estado;
+
+    if (CEP.Estado <> 'EX') and (CEP.Estado <> '') then
+      cdsClienteEND_PAIS.AsString := 'Brasil';
 
   finally
     FreeAndNil(CEP);
@@ -189,9 +195,8 @@ end;
 
 procedure TfrmCadastroCliente.btnCancelarClick(Sender: TObject);
 begin
-  if Sender <> btnGravar then
-    if not uMensagem.Confirma('Deseja cancelar a manutenção do registro atual?') then
-      Exit;
+  if not uMensagem.Confirma('Deseja cancelar a manutenção do registro atual?') then
+    Exit;
 
   cdsCliente.Cancel;
   SetButtonsManutencao(False);
@@ -200,10 +205,46 @@ end;
 procedure TfrmCadastroCliente.btnEmailClick(Sender: TObject);
 var
   CadastroCliente : TCadastroCliente;
+  Endereco        : TEndereco;
+  Email           : TEmail;
 begin
   CadastroCliente := TCadastroCliente.Create;
+  Endereco        := TEndereco.Create;
+  Email           := TEmail.Create;
   try
-    CadastroCliente.SaveToXml('');
+    Endereco.Assign(cdsClienteEND_CEP.AsString        ,
+                    cdsClienteEND_LOGRADOURO.AsString ,
+                    cdsClienteEND_NUMERO.AsString     ,
+                    cdsClienteEND_COMPLEMENTO.AsString,
+                    cdsClienteEND_BAIRRO.AsString     ,
+                    cdsClienteEND_CIDADE.AsString     ,
+                    cdsClienteEND_ESTADO.AsString     ,
+                    cdsClienteEND_PAIS.AsString       );
+
+    CadastroCliente.Assign(cdsClienteNOME.AsString    ,
+                           cdsClienteRG.AsString      ,
+                           cdsClienteCPF.AsString     ,
+                           cdsClienteTELEFONE.AsString,
+                           cdsClienteEMAIL.AsString   ,
+                           Endereco                   );
+
+
+    CadastroCliente.SaveToXml(pubPathAplicacao+'Cadastro.xml');
+
+    Email.Assign(cdsClienteEMAIL.AsString,
+                 'Cadastro Realizado InfoSistemas',
+                 'Olá '+cdsClienteNOME.AsString+'!'#13 +
+                 'Segue anexo dados cadastrais em nossa plataforma.'#13 +
+                 'Atenciosamente!',
+                 pubPathAplicacao+'Cadastro.xml');
+
+    if not Email.Enviar then
+    begin
+      if uMensagem.Confirma('E-mail não enviado! Deseja revisar as configurações de conta?') then
+        uConfigSMTP.Execute;
+    end
+    else
+      uMensagem.Informa('E-mail enviado com sucesso!');
 
   finally
     FreeAndNil(CadastroCliente);
@@ -283,6 +324,11 @@ begin
       if btnPesquisar.Enabled then
         btnPesquisarClick(btnPesquisar);
     end
+    else if (Key = VK_F9) then
+    begin
+      if btnEmail.Enabled then
+        btnEmailClick(btnEmail);
+    end
     else if (Key = VK_RETURN) then
     begin
       if btnGravar.Enabled then
@@ -339,8 +385,16 @@ begin
   btnAlterar.Enabled          := (not Ativar) and (not cdsCliente.IsEmpty);
   btnExluir.Enabled           := btnAlterar.Enabled;
   btnPesquisar.Enabled        := not Ativar;
+  btnEmail.Enabled            := btnAlterar.Enabled;
+
   btnGravar.Enabled           := Ativar;
   btnCancelar.Enabled         := Ativar;
+end;
+
+initialization
+begin
+  SetPathAplicacao;
+  SetConfigEmailSMTP;
 end;
 
 end.

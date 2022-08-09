@@ -1,0 +1,20 @@
+unit uParametros;
+
+interface
+
+uses System.SysUtils, Vcl.Forms, IniFiles;
+
+var
+  pubPathAplicacao    : string;
+  pubConfigEmailSMTP  : TIniFile;
+
+procedure SetPathAplicacao;
+
+implementation
+
+procedure SetPathAplicacao;
+begin
+  pubPathAplicacao :=  ExtractFilePath(Application.ExeName);
+end;
+
+end.

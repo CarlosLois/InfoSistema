@@ -16,12 +16,13 @@ type
     imgLogo: TImage;
     lblSaudacao: TLabel;
     Label1: TLabel;
+    Panel3: TPanel;
+    btnConfigEmail: TSpeedButton;
     procedure btnAcessoClick(Sender: TObject);
     procedure btnSairClick(Sender: TObject);
+    procedure btnConfigEmailClick(Sender: TObject);
   private
     { Private declarations }
-
-    ConfigConection : TIniFile;
   public
     { Public declarations }
   end;
@@ -37,7 +38,7 @@ implementation
 
 {$R *.dfm}
 
-uses uConfigConexao;
+uses uConfigSMTP;
 
 function Execute : Boolean;
 begin
@@ -52,6 +53,11 @@ end;
 procedure TfrmAcesso.btnAcessoClick(Sender: TObject);
 begin
   ModalResult := mrOk;
+end;
+
+procedure TfrmAcesso.btnConfigEmailClick(Sender: TObject);
+begin
+  uConfigSMTP.Execute;
 end;
 
 procedure TfrmAcesso.btnSairClick(Sender: TObject);

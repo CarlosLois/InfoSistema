@@ -1,0 +1,149 @@
+object frmConfigSMTP: TfrmConfigSMTP
+  Left = 0
+  Top = 0
+  BorderStyle = bsNone
+  Caption = '>> Configura'#231#227'o SMTP E-mail'
+  ClientHeight = 195
+  ClientWidth = 340
+  Color = clWhite
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -12
+  Font.Name = 'Segoe UI'
+  Font.Style = []
+  PixelsPerInch = 96
+  TextHeight = 15
+  object lblCliente: TLabel
+    Left = 8
+    Top = 8
+    Width = 35
+    Height = 15
+    Caption = 'E-mail'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = 48123
+    Font.Height = -12
+    Font.Name = 'Optima'
+    Font.Style = [fsBold]
+    ParentFont = False
+  end
+  object Label1: TLabel
+    Left = 8
+    Top = 58
+    Width = 33
+    Height = 15
+    Caption = 'SMTP'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = 48123
+    Font.Height = -12
+    Font.Name = 'Optima'
+    Font.Style = [fsBold]
+    ParentFont = False
+  end
+  object Label2: TLabel
+    Left = 8
+    Top = 106
+    Width = 36
+    Height = 15
+    Caption = 'Senha'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = 48123
+    Font.Height = -12
+    Font.Name = 'Optima'
+    Font.Style = [fsBold]
+    ParentFont = False
+  end
+  object Label3: TLabel
+    Left = 176
+    Top = 106
+    Width = 31
+    Height = 15
+    Caption = 'Porta'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = 48123
+    Font.Height = -12
+    Font.Name = 'Optima'
+    Font.Style = [fsBold]
+    ParentFont = False
+  end
+  object edtEmail: TEdit
+    Left = 8
+    Top = 29
+    Width = 324
+    Height = 23
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clBlack
+    Font.Height = -12
+    Font.Name = 'Optima'
+    Font.Style = []
+    ParentFont = False
+    TabOrder = 0
+  end
+  object edtSMTP: TEdit
+    Left = 8
+    Top = 77
+    Width = 324
+    Height = 23
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clBlack
+    Font.Height = -12
+    Font.Name = 'Optima'
+    Font.Style = []
+    ParentFont = False
+    TabOrder = 1
+  end
+  object edtSenha: TEdit
+    Left = 8
+    Top = 127
+    Width = 161
+    Height = 23
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clBlack
+    Font.Height = -12
+    Font.Name = 'Optima'
+    Font.Style = []
+    ParentFont = False
+    TabOrder = 2
+  end
+  object edtPorta: TEdit
+    Left = 176
+    Top = 127
+    Width = 156
+    Height = 23
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clBlack
+    Font.Height = -12
+    Font.Name = 'Optima'
+    Font.Style = []
+    ParentFont = False
+    TabOrder = 3
+  end
+  object Panel7: TPanel
+    Left = 232
+    Top = 166
+    Width = 100
+    Height = 25
+    BevelOuter = bvNone
+    Color = 48123
+    ParentBackground = False
+    TabOrder = 4
+    object btnGravar: TSpeedButton
+      Left = 0
+      Top = 0
+      Width = 100
+      Height = 25
+      Align = alClient
+      Caption = 'Gravar [ENTER]'
+      Flat = True
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWhite
+      Font.Height = -12
+      Font.Name = 'Optima'
+      Font.Style = [fsBold]
+      ParentFont = False
+      ExplicitLeft = 24
+      ExplicitTop = 8
+      ExplicitWidth = 23
+      ExplicitHeight = 22
+    end
+  end
+end

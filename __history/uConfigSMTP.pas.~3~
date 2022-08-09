@@ -1,0 +1,45 @@
+unit uConfigSMTP;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.Mask, Vcl.ExtCtrls,
+  Vcl.DBCtrls, Vcl.Buttons;
+
+type
+  TfrmConfigSMTP = class(TForm)
+    lblCliente: TLabel;
+    edtEmail: TEdit;
+    Label1: TLabel;
+    edtSMTP: TEdit;
+    Label2: TLabel;
+    edtSenha: TEdit;
+    Label3: TLabel;
+    edtPorta: TEdit;
+    Panel7: TPanel;
+    btnGravar: TSpeedButton;
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmConfigSMTP: TfrmConfigSMTP;
+
+implementation
+
+{$R *.dfm}
+
+function Execute : Boolean;
+begin
+  frmConfigSMTP := TfrmConfigSMTP.Create(Application);
+  try
+    Result := frmConfigSMTP.ShowModal = mrOk;
+  finally
+    FreeAndNil(frmConfigSMTP);
+  end;
+end;
+
+end.

@@ -44,11 +44,40 @@ type
     constructor Create;
     Destructor Destroy;
 
+
+    procedure Assign(ACep        ,
+                     ALogradouro ,
+                     ANumero     ,
+                     AComplemento,
+                     ABairro     ,
+                     ACidade     ,
+                     AEstado     ,
+                     APais       : String);
+
   end;
 
 implementation
 
 { TEndereco }
+
+procedure TEndereco.Assign(ACep        ,
+                           ALogradouro ,
+                           ANumero     ,
+                           AComplemento,
+                           ABairro     ,
+                           ACidade     ,
+                           AEstado     ,
+                           APais       : String);
+begin
+  FCep         := ACep;
+  FLogradouro  := ALogradouro;
+  FNumero      := ANumero;
+  FComplemento := AComplemento;
+  FBairro      := ABairro;
+  FCidade      := ACidade;
+  FEstado      := AEstado;
+  FPais        := APais;
+end;
 
 constructor TEndereco.Create;
 begin

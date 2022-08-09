@@ -40,12 +40,34 @@ type
 
     property Endereco : TEndereco read GetEndereco write SetEndereco;
 
+    procedure Assign(ANome    ,
+                     ARG      ,
+                     ACPF     ,
+                     ATelefone,
+                     AEmail   : String;
+                     AEndereco: TEndereco);
+
     function SaveToXml(const Path : String): Boolean;
   end;
 
 implementation
 
 { TCadastroCliente }
+
+procedure TCadastroCliente.Assign(ANome    ,
+                                  ARG      ,
+                                  ACPF     ,
+                                  ATelefone,
+                                  AEmail   : String;
+                                  AEndereco: TEndereco);
+begin
+  FNome      := ANome;
+  FRG        := ARG;
+  FCPF       := ACPF;
+  FTelefone  := ATelefone;
+  FEmail     := AEmail;
+  FEndereco  := AEndereco;
+end;
 
 constructor TCadastroCliente.Create;
 begin
@@ -94,23 +116,23 @@ begin
   XMLDocument := TXMLDocument.Create(nil);
   try
     XMLDocument.Active := True;
-    XMLDocument.AddChild('Nome').NodeValue     := '';
-    XMLDocument.AddChild('Rg').NodeValue       := '';
-    XMLDocument.AddChild('Cpf').NodeValue      := '';
-    XMLDocument.AddChild('Telefone').NodeValue := '';
-    XMLDocument.AddChild('Email').NodeValue    := '';
+    XMLDocument.AddChild('Cliente');
+    XMLDocument.DocumentElement.ChildNodes['Dados'].AddChild('Nome').NodeValue           := FNome;
+    XMLDocument.DocumentElement.ChildNodes['Dados'].AddChild('Rg').NodeValue             := FRG;
+    XMLDocument.DocumentElement.ChildNodes['Dados'].AddChild('Cpf').NodeValue            := FCPF;
+    XMLDocument.DocumentElement.ChildNodes['Dados'].AddChild('Telefone').NodeValue       := FTelefone;
+    XMLDocument.DocumentElement.ChildNodes['Dados'].AddChild('Email').NodeValue          := FEmail;
 
-    XMLDocument.DocumentElement.AddChild('Endereco');
-    XMLDocument.DocumentElement.ChildNodes['Endereco'].AddChild('Cep').NodeValue         := '';
-    XMLDocument.DocumentElement.ChildNodes['Endereco'].AddChild('Logradouro').NodeValue  := '';
-    XMLDocument.DocumentElement.ChildNodes['Endereco'].AddChild('Numero').NodeValue      := '';
-    XMLDocument.DocumentElement.ChildNodes['Endereco'].AddChild('Complemento').NodeValue := '';
-    XMLDocument.DocumentElement.ChildNodes['Endereco'].AddChild('Bairro').NodeValue      := '';
-    XMLDocument.DocumentElement.ChildNodes['Endereco'].AddChild('Cidade').NodeValue      := '';
-    XMLDocument.DocumentElement.ChildNodes['Endereco'].AddChild('Estado').NodeValue      := '';
-    XMLDocument.DocumentElement.ChildNodes['Endereco'].AddChild('Pais').NodeValue        := '';
+    XMLDocument.DocumentElement.ChildNodes['Endereco'].AddChild('Cep').NodeValue         := FEndereco.Cep;
+    XMLDocument.DocumentElement.ChildNodes['Endereco'].AddChild('Logradouro').NodeValue  := FEndereco.Logradouro;
+    XMLDocument.DocumentElement.ChildNodes['Endereco'].AddChild('Numero').NodeValue      := FEndereco.Numero;
+    XMLDocument.DocumentElement.ChildNodes['Endereco'].AddChild('Complemento').NodeValue := FEndereco.Complemento;
+    XMLDocument.DocumentElement.ChildNodes['Endereco'].AddChild('Bairro').NodeValue      := FEndereco.Bairro;
+    XMLDocument.DocumentElement.ChildNodes['Endereco'].AddChild('Cidade').NodeValue      := FEndereco.Cidade;
+    XMLDocument.DocumentElement.ChildNodes['Endereco'].AddChild('Estado').NodeValue      := FEndereco.Estado;
+    XMLDocument.DocumentElement.ChildNodes['Endereco'].AddChild('Pais').NodeValue        := FEndereco.Pais;
 
-    XMLDocument.SaveToFile('D:\_Projetos Carlos\Avaliações\InfoSistema\Cadastro.xml');
+    XMLDocument.SaveToFile(Path);
 
   finally
     XMLDocument.Free;

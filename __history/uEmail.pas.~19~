@@ -1,0 +1,163 @@
+unit uEmail;
+
+interface
+
+uses Vcl.StdCtrls, System.SysUtils, Vcl.Dialogs, System.UITypes, IdSMTP, IdSSLOpenSSL, IdMessage, IdText, IdAttachmentFile, IdExplicitTLSClientServerBase,
+     uParametros;
+
+type
+  TEmail = class
+  private
+    FIdSSLIOHandlerSocket: TIdSSLIOHandlerSocketOpenSSL;
+    FIdSMTP              : TIdSMTP;
+    FIdMessage           : TIdMessage;
+    FIdText              : TIdText;
+
+    FContaEmail         : String;
+    FContaSMTP          : String;
+    FContaPorta         : String;
+    FContaSenha         : String;
+
+    FEmailDestinatario  : String;
+    FEmailCorpo         : String;
+    FEmailAssunto       : String;
+
+    FEmailAnexo         : String;
+
+    procedure SetEmailDestinatario(const Value: String);
+    procedure SetEmailCorpo(const Value: String);
+    procedure SetEmailAssunto(const Value: String);
+    procedure SetEmailAnexo(const Value: String);
+  public
+    constructor Create;
+    destructor Destroy;
+
+    property  EmailDestinatario  : String write SetEmailDestinatario;
+    property  EmailCorpo         : String write SetEmailCorpo;
+
+    property  EmailAssunto       : String write SetEmailAssunto;
+    property  EmailAnexo         : String write SetEmailAnexo;
+
+    procedure Assign(AEmailDestinatario,
+                     AEmailAssunto     ,
+                     AEmailCorpo       ,
+                     AEmailAnexo       : String);
+
+    function Enviar : Boolean;
+  end;
+
+implementation
+
+{ TEmail }
+
+procedure TEmail.Assign(AEmailDestinatario,
+                        AEmailAssunto     ,
+                        AEmailCorpo       ,
+                        AEmailAnexo       : String);
+begin
+  FEmailDestinatario := AEmailDestinatario;
+  FEmailAssunto      := AEmailAssunto;
+  FEmailCorpo        := AEmailCorpo;
+  FEmailAnexo        := AEmailAnexo;
+end;
+
+constructor TEmail.Create;
+begin
+  FIdSSLIOHandlerSocket := TIdSSLIOHandlerSocketOpenSSL.Create();
+  FIdSMTP               := TIdSMTP.Create();
+  FIdMessage            := TIdMessage.Create();
+  try
+    FIdSSLIOHandlerSocket.SSLOptions.Method := sslvTLSv1_2;
+    FIdSSLIOHandlerSocket.SSLOptions.Mode   := sslmClient;
+    FIdSMTP.IOHandler                       := FIdSSLIOHandlerSocket;
+    FIdSMTP.UseTLS                          := utUseExplicitTLS;
+    FIdSMTP.AuthType                        := satDefault;
+
+    FContaEmail := pubConfigEmailSMTP.ReadString('SMTP_EMAIL', 'CONTA', '');
+    FContaSMTP  := pubConfigEmailSMTP.ReadString('SMTP_EMAIL', 'SMTP' , '');
+    FContaSenha := pubConfigEmailSMTP.ReadString('SMTP_EMAIL', 'SENHA', '');
+    FContaPorta := pubConfigEmailSMTP.ReadString('SMTP_EMAIL', 'PORTA', '');
+
+    FIdSMTP.Port     := StrToIntDef(FContaPorta, 0);
+    FIdSMTP.host     := FContaSMTP;
+    FIdSMTP.UserName := FContaEmail;
+    FIdSMTP.Password := FContaSenha;
+  except
+    Raise;
+  end;
+end;
+
+destructor TEmail.Destroy;
+begin
+  FreeAndNil(FIdSSLIOHandlerSocket);
+  FreeAndNil(FIdSMTP);
+  FreeAndNil(FIdMessage);
+end;
+
+function TEmail.Enviar : Boolean;
+begin
+  Result := False;
+
+  try
+    FIdMessage.From.Address        := FContaEmail;
+    FIdMessage.Recipients.Add.Text := FEmailDestinatario;
+    FIdMessage.Subject             := FEmailAssunto;
+
+    FIdMessage.Encoding            := meMIME;
+
+    FIdText := TIdText.Create(FIdMessage.MessageParts);
+    FIdText.Body.Add(FEmailCorpo);
+
+    FIdText.ContentType := 'text/html;charset=utf-8';
+
+    if FEmailAnexo <> '' then
+      if FileExists(FEmailAnexo) then
+        TIdAttachmentFile.Create(FIdMessage.MessageParts, FEmailAnexo);
+  except
+    Raise;
+  end;
+
+  try
+    try
+      FIdSMTP.Connect;
+      FIdSMTP.Authenticate;
+    except
+      on e: Exception do
+      begin
+        Exit;
+      end;
+    end;
+
+    try
+      FIdSMTP.Send(FIdMessage);
+      Result := True;
+    except
+      On e: Exception do ShowMessage(e.Message);
+    end;
+  finally
+    FIdSMTP.Disconnect;
+    UnLoadOpenSSLLibrary;
+  end;
+end;
+
+procedure TEmail.SetEmailAnexo(const Value: String);
+begin
+  FEmailAnexo := Value;
+end;
+
+procedure TEmail.SetEmailAssunto(const Value: String);
+begin
+  FEmailAssunto := Value;
+end;
+
+procedure TEmail.SetEmailCorpo(const Value: String);
+begin
+  FEmailCorpo := Value;
+end;
+
+procedure TEmail.SetEmailDestinatario(const Value: String);
+begin
+  FEmailDestinatario := Value;
+end;
+
+end.

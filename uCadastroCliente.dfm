@@ -93,6 +93,8 @@ object frmCadastroCliente: TfrmCadastroCliente
         BevelInner = bvRaised
         BevelOuter = bvLowered
         TabOrder = 0
+        ExplicitLeft = -4
+        ExplicitTop = -4
         object lblCliente: TLabel
           Left = 7
           Top = 24
@@ -429,7 +431,7 @@ object frmCadastroCliente: TfrmCadastroCliente
           Top = 221
           Width = 313
           Height = 23
-          DataField = 'END_COMPLEMETO'
+          DataField = 'END_COMPLEMENTO'
           DataSource = dsCliente
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clBlack
@@ -927,7 +929,7 @@ object frmCadastroCliente: TfrmCadastroCliente
             end
             item
               Expanded = False
-              FieldName = 'END_COMPLEMETO'
+              FieldName = 'END_COMPLEMENTO'
               Font.Charset = DEFAULT_CHARSET
               Font.Color = clBlack
               Font.Height = -12
@@ -1084,9 +1086,9 @@ object frmCadastroCliente: TfrmCadastroCliente
       Required = True
       Size = 10
     end
-    object cdsClienteEND_COMPLEMETO: TStringField
+    object cdsClienteEND_COMPLEMENTO: TStringField
       DisplayLabel = 'Complemento'
-      FieldName = 'END_COMPLEMETO'
+      FieldName = 'END_COMPLEMENTO'
       Size = 255
     end
     object cdsClienteEND_BAIRRO: TStringField
@@ -1112,5 +1114,10 @@ object frmCadastroCliente: TfrmCadastroCliente
       FieldName = 'END_PAIS'
       Size = 255
     end
+  end
+  object IdSMTP1: TIdSMTP
+    SASLMechanisms = <>
+    Left = 212
+    Top = 389
   end
 end

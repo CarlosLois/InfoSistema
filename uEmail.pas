@@ -3,7 +3,7 @@ unit uEmail;
 interface
 
 uses Vcl.StdCtrls, System.SysUtils, Vcl.Dialogs, System.UITypes, IdSMTP, IdSSLOpenSSL, IdMessage, IdText, IdAttachmentFile, IdExplicitTLSClientServerBase,
-     uParametros;
+     uParametros, uMensagem;
 
 type
   TEmail = class
@@ -83,7 +83,8 @@ begin
     FIdSMTP.UserName := FContaEmail;
     FIdSMTP.Password := FContaSenha;
   except
-    Raise;
+    on E : Exception do
+      uMensagem.Informa('Ocorreu um problema ao configurar envio de E-mail! '+E.Message);
   end;
 end;
 
@@ -122,9 +123,10 @@ begin
       FIdSMTP.Connect;
       FIdSMTP.Authenticate;
     except
-      on e: Exception do
+      on e : Exception do
       begin
-        Exit;
+        uMensagem.Informa('Ocorreu um problema na autenticação da conta! '+E.Message);
+        Exit
       end;
     end;
 
@@ -132,7 +134,8 @@ begin
       FIdSMTP.Send(FIdMessage);
       Result := True;
     except
-      On e: Exception do ShowMessage(e.Message);
+      on e: Exception do
+        uMensagem.Informa('Ocorreu um problema ao enviar o E-mail! '+E.Message);
     end;
   finally
     FIdSMTP.Disconnect;

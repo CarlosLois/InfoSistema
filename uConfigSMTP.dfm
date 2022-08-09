@@ -11,7 +11,9 @@ object frmConfigSMTP: TfrmConfigSMTP
   Font.Height = -12
   Font.Name = 'Segoe UI'
   Font.Style = []
+  OldCreateOrder = True
   Position = poScreenCenter
+  OnKeyDown = FormKeyDown
   OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 15
@@ -194,8 +196,6 @@ object frmConfigSMTP: TfrmConfigSMTP
     Color = 48123
     ParentBackground = False
     TabOrder = 6
-    ExplicitTop = 2
-    ExplicitHeight = 176
   end
   object Panel2: TPanel
     Left = 0
@@ -208,9 +208,6 @@ object frmConfigSMTP: TfrmConfigSMTP
     Color = 48123
     ParentBackground = False
     TabOrder = 7
-    ExplicitLeft = 378
-    ExplicitTop = 2
-    ExplicitHeight = 176
   end
   object Panel4: TPanel
     Left = 0
@@ -223,9 +220,6 @@ object frmConfigSMTP: TfrmConfigSMTP
     Color = 48123
     ParentBackground = False
     TabOrder = 8
-    ExplicitLeft = 378
-    ExplicitTop = 2
-    ExplicitWidth = 178
   end
   object pnlTop: TPanel
     Left = 0
@@ -243,8 +237,6 @@ object frmConfigSMTP: TfrmConfigSMTP
     ParentBackground = False
     ParentFont = False
     TabOrder = 9
-    ExplicitLeft = -400
-    ExplicitWidth = 780
     object lblNomeForm: TLabel
       Left = 0
       Top = 0

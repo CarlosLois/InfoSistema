@@ -86,7 +86,6 @@ type
     btnPesquisar: TSpeedButton;
     Panel11: TPanel;
     btnEmail: TSpeedButton;
-    IdSMTP1: TIdSMTP;
     procedure imgFecharClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure btnNovoClick(Sender: TObject);
@@ -208,6 +207,10 @@ var
   Endereco        : TEndereco;
   Email           : TEmail;
 begin
+  if Sender <> btnGravar then
+    if not uMensagem.Confirma('Deseja reenviar o e-mail para o cliente?') then
+      Exit;
+
   CadastroCliente := TCadastroCliente.Create;
   Endereco        := TEndereco.Create;
   Email           := TEmail.Create;
@@ -270,6 +273,7 @@ begin
 
   cdsCliente.Post;
   SetButtonsManutencao(False);
+  btnEmailClick(btnGravar);
 end;
 
 procedure TfrmCadastroCliente.FormClose(Sender: TObject;

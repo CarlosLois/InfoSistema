@@ -29,6 +29,7 @@ type
     procedure btnGravarClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure btnCancelarClick(Sender: TObject);
+    procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
   private
     { Private declarations }
   public
@@ -89,6 +90,21 @@ begin
   pubConfigEmailSMTP.WriteString('SMTP_EMAIL', 'PORTA', edtPorta.Text);
 
   ModalResult := mrOk;
+end;
+
+procedure TfrmConfigSMTP.FormKeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+  if (Key = VK_RETURN) then
+  begin
+    if btnGravar.Enabled then
+      btnGravarClick(btnGravar);
+  end
+  else if (Key = VK_ESCAPE) then
+  begin
+    if btnCancelar.Enabled then
+      btnCancelarClick(btnCancelar);
+  end
 end;
 
 procedure TfrmConfigSMTP.FormShow(Sender: TObject);

@@ -12,6 +12,7 @@ object frmCadastroCliente: TfrmCadastroCliente
   Font.Name = 'Optima'
   Font.Style = [fsBold]
   KeyPreview = True
+  OldCreateOrder = True
   Position = poScreenCenter
   OnClose = FormClose
   OnCreate = FormCreate
@@ -79,7 +80,7 @@ object frmCadastroCliente: TfrmCadastroCliente
     Top = 32
     Width = 764
     Height = 448
-    ActivePage = tbsCadastro
+    ActivePage = tbsPesquisa
     Style = tsFlatButtons
     TabOrder = 1
     object tbsCadastro: TTabSheet
@@ -93,8 +94,6 @@ object frmCadastroCliente: TfrmCadastroCliente
         BevelInner = bvRaised
         BevelOuter = bvLowered
         TabOrder = 0
-        ExplicitLeft = -4
-        ExplicitTop = -4
         object lblCliente: TLabel
           Left = 7
           Top = 24
@@ -822,7 +821,13 @@ object frmCadastroCliente: TfrmCadastroCliente
           Width = 737
           Height = 358
           DataSource = dsCliente
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = 48123
+          Font.Height = -12
+          Font.Name = 'Optima'
+          Font.Style = [fsBold]
           Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgConfirmDelete, dgCancelOnExit, dgTitleClick, dgTitleHotTrack]
+          ParentFont = False
           TabOrder = 2
           TitleFont.Charset = DEFAULT_CHARSET
           TitleFont.Color = 48123
@@ -838,7 +843,7 @@ object frmCadastroCliente: TfrmCadastroCliente
               Font.Color = clBlack
               Font.Height = -12
               Font.Name = 'Optima'
-              Font.Style = [fsBold]
+              Font.Style = []
               Title.Alignment = taCenter
               Width = 200
               Visible = True
@@ -850,7 +855,7 @@ object frmCadastroCliente: TfrmCadastroCliente
               Font.Color = clBlack
               Font.Height = -12
               Font.Name = 'Optima'
-              Font.Style = [fsBold]
+              Font.Style = []
               Title.Alignment = taCenter
               Width = 100
               Visible = True
@@ -862,7 +867,7 @@ object frmCadastroCliente: TfrmCadastroCliente
               Font.Color = clBlack
               Font.Height = -12
               Font.Name = 'Optima'
-              Font.Style = [fsBold]
+              Font.Style = []
               Title.Alignment = taCenter
               Width = 120
               Visible = True
@@ -874,7 +879,7 @@ object frmCadastroCliente: TfrmCadastroCliente
               Font.Color = clBlack
               Font.Height = -12
               Font.Name = 'Optima'
-              Font.Style = [fsBold]
+              Font.Style = []
               Title.Alignment = taCenter
               Width = 100
               Visible = True
@@ -886,7 +891,7 @@ object frmCadastroCliente: TfrmCadastroCliente
               Font.Color = clBlack
               Font.Height = -12
               Font.Name = 'Optima'
-              Font.Style = [fsBold]
+              Font.Style = []
               Title.Alignment = taCenter
               Width = 200
               Visible = True
@@ -898,7 +903,7 @@ object frmCadastroCliente: TfrmCadastroCliente
               Font.Color = clBlack
               Font.Height = -12
               Font.Name = 'Optima'
-              Font.Style = [fsBold]
+              Font.Style = []
               Title.Alignment = taCenter
               Width = 100
               Visible = True
@@ -910,7 +915,7 @@ object frmCadastroCliente: TfrmCadastroCliente
               Font.Color = clBlack
               Font.Height = -12
               Font.Name = 'Optima'
-              Font.Style = [fsBold]
+              Font.Style = []
               Title.Alignment = taCenter
               Width = 200
               Visible = True
@@ -922,7 +927,7 @@ object frmCadastroCliente: TfrmCadastroCliente
               Font.Color = clBlack
               Font.Height = -12
               Font.Name = 'Optima'
-              Font.Style = [fsBold]
+              Font.Style = []
               Title.Alignment = taCenter
               Width = 50
               Visible = True
@@ -934,7 +939,7 @@ object frmCadastroCliente: TfrmCadastroCliente
               Font.Color = clBlack
               Font.Height = -12
               Font.Name = 'Optima'
-              Font.Style = [fsBold]
+              Font.Style = []
               Title.Alignment = taCenter
               Width = 200
               Visible = True
@@ -946,7 +951,7 @@ object frmCadastroCliente: TfrmCadastroCliente
               Font.Color = clBlack
               Font.Height = -12
               Font.Name = 'Optima'
-              Font.Style = [fsBold]
+              Font.Style = []
               Title.Alignment = taCenter
               Width = 200
               Visible = True
@@ -958,7 +963,7 @@ object frmCadastroCliente: TfrmCadastroCliente
               Font.Color = clBlack
               Font.Height = -12
               Font.Name = 'Optima'
-              Font.Style = [fsBold]
+              Font.Style = []
               Title.Alignment = taCenter
               Width = 200
               Visible = True
@@ -970,7 +975,7 @@ object frmCadastroCliente: TfrmCadastroCliente
               Font.Color = clBlack
               Font.Height = -12
               Font.Name = 'Optima'
-              Font.Style = [fsBold]
+              Font.Style = []
               Title.Alignment = taCenter
               Width = 50
               Visible = True
@@ -982,7 +987,7 @@ object frmCadastroCliente: TfrmCadastroCliente
               Font.Color = clBlack
               Font.Height = -12
               Font.Name = 'Optima'
-              Font.Style = [fsBold]
+              Font.Style = []
               Title.Alignment = taCenter
               Width = 120
               Visible = True
@@ -1114,10 +1119,5 @@ object frmCadastroCliente: TfrmCadastroCliente
       FieldName = 'END_PAIS'
       Size = 255
     end
-  end
-  object IdSMTP1: TIdSMTP
-    SASLMechanisms = <>
-    Left = 212
-    Top = 389
   end
 end
